@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wu.am.dao.ArticleMapper" >
+
+    <resultMap id="resultArticle" type="cn.wu.am.entity.Article">
+        <association property="user" column="user_id"
+        select="cn.wu.am.dao.UserMapper.findById"></association>
+    </resultMap>
+
+    <insert id="add" parameterType="cn.wu.am.entity.Article" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_article(user_id, title, content, view_count, status, status_msg, create_time, update_time)
+        VALUES(#{user.id}, #{title}, #{content}, #{viewCount}, #{status}, #{statusMsg}, #{createTime}, #{updateTime})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM tb_article WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="cn.wu.am.entity.Article">
+        UPDATE tb_article
+        <set>
+            <if test="title != null">title=#{title},</if>
+            <if test="content != null">content=#{content},</if>
+            <if test="viewCount != null">view_count=#{viewCount},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="statusMsg != null">status_msg=#{statusMsg},</if>
+            <if test="updateTime != null">update_time=#{updateTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="find" resultMap="resultArticle">
+        SELECT * FROM tb_article WHERE id = #{id}
+    </select>
+
+    <select id="getAll" resultMap="resultArticle">
+        SELECT * FROM tb_article WHERE status = '1' ORDER BY id LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="getAllWithChecking" resultMap="resultArticle">
+        SELECT * FROM tb_article WHERE status != '1' ORDER BY id LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="getAllById" resultMap="resultArticle">
+        SELECT * FROM tb_article WHERE id = #{id} ORDER BY id LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="getAllByUserId" resultMap="resultArticle">
+        SELECT * FROM tb_article WHERE user_id = #{userId} ORDER BY id LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="getCount" resultType="int">
+        SELECT count(*) FROM tb_article
+    </select>
+
+
+    <select id="getCountWithChecking" resultType="int">
+        SELECT count(*) FROM tb_article WHERE status != '1'
+    </select>
+
+    <select id="getCountByUserId" resultType="int">
+        SELECT count(*) FROM tb_article WHERE user_id = #{userId}
+    </select>
+
+</mapper>

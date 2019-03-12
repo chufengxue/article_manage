@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wu.am.dao.CommentMapper" >
+
+    <resultMap id="commentMap" type="cn.wu.am.entity.Comment">
+        <association property="user" column="user_id"
+                     select="cn.wu.am.dao.UserMapper.findById"></association>
+    </resultMap>
+
+    <insert id="addComment" parameterType="cn.wu.am.entity.Comment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_comment(user_id, article_id, content, create_time)
+        VALUES(#{user.id}, #{articleId}, #{content}, #{createTime})
+    </insert>
+
+    <select id="getAllByArticleId" resultMap="commentMap">
+        SELECT * FROM tb_comment WHERE article_id = #{articleId}
+    </select>
+
+    <delete id="deleteAllByArticleId">
+        DELETE FROM tb_comment WHERE article_id = #{articleId}
+    </delete>
+</mapper>

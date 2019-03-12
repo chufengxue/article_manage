@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>文章详情</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"></link>
+    <style>
+        pre{
+white-space: pre-wrap;
+white-space: -moz-pre-wrap;
+white-space: -pre-wrap;
+white-space: -o-pre-wrap;
+word-wrap: break-word;
+}
+    </style>
+</head>
+
+<body class="container" style="width: 70%;">
+<div th:replace="layout/header :: header"></div>
+<h3 class="text-center" th:text="${article.title}"></h3> <br>
+<div class="text-center">
+    <span th:text="${article.user.getUsername()}"></span>&nbsp;&nbsp;
+    <span th:text="${#dates.format(article.createTime, 'yyyy-MM-dd HH:mm:ss')}"></span>&nbsp;&nbsp;
+    (<span th:text="${statusView}"></span>)
+</div>
+
+<br>
+<pre th:text="${article.content}">
+</pre>
+<br>
+<form role="form" th:action="@{/newComment}" method="post">
+    <input type="hidden" name="articleId" th:value="${article.id}">
+    <div class="form-group">
+        <textarea style="resize: vertical;" class="form-control" rows="4" name="content" placeholder="填写你的评论..."></textarea>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input type="submit" value="发布评论" class="btn btn-info" />
+        </div>
+    </div>
+</form>
+
+<br><br><br><br>
+<label style="color:#F00;">热门评论</label>
+<hr style="height:0px; border-top:1px solid #F00; border-right:0px; border-bottom:0px; border-left:0px;"></hr>
+
+<div th:if="${comments != null}" th:each="comment : ${comments}" th:remove="tag">
+    <b style="font-size:18px;" th:text="|${comment.user.username} 说：|">张三&nbsp;说</b><br/><br/>
+    <p th:text="${comment.content}">content</p>
+    <p align="right" th:text="${#dates.format(comment.createTime, 'yyyy-MM-dd HH:mm:ss')}">time</p>
+    <hr style="border-top:1px silver dashed;"></hr>
+</div>
+
+</body>
+</html>

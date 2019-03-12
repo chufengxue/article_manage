@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>审核文章</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"></link>
+</head>
+<body class="container" style="width: 70%;">
+
+<div th:replace="layout/header :: header"></div>
+
+<br/>
+<h1>审核文章</h1>
+<br/><br/>
+<div class="with:50%">
+
+    <form th:action="@{/checkArticle}" method="post">
+        <input type="hidden" name="id" th:value="${article.id}" />
+        <table class="table table-bordered table-hover">
+            <tr class="success"><th>发布者</th> <td th:text="${article.user.username}">id</td></tr>
+            <tr class="info"><th>文章标题</th> <td th:text="${article.title}">username</td></tr>
+            <tr class="success"><th>发布时间</th> <td th:text="${#dates.format(article.createTime, 'yyyy-MM-dd HH:mm:ss')}">id</td></tr>
+            <tr class="info"><th>当前状态</th> <td th:text="${statusView}">status</td></tr>
+            <tr class="success"><th>审核</th>
+                <td>
+                    <input type="radio" name="status" value="1">允许发布
+                    <input type="radio" name="status" value="2" checked>禁止发布
+                </td>
+            </tr>
+
+        </table>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" value="提交" class="btn btn-info" />
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

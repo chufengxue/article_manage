@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>审核用户</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"></link>
+</head>
+<body class="container" style="width: 70%;">
+
+<div th:replace="layout/header :: header"></div>
+
+<br/>
+<h1>用户审核</h1>
+<br/><br/>
+<div class="with:50%">
+
+<form th:action="@{/check_user}" method="post">
+    <input type="hidden" name="id" th:value="${userTD.id}" />
+    <table class="table table-bordered table-hover">
+        <tr class="success"><th>用户ID</th> <td th:text="${userTD.id}">id</td></tr>
+        <tr class="info"><th>用户名</th> <td th:text="${userTD.username}">username</td></tr>
+        <tr class="success"><th>用户类型</th> <td th:text="${userTD.userTypeView}">userType</td></tr>
+
+        <tr class="info"><th>当前状态</th> <td th:text="${userTD.userStatusView}">status</td></tr>
+        <tr class="success"><th>审核</th>
+            <td>
+                <input type="radio" name="status" value="0">不通过
+                <input type="radio" name="status" value="1" checked>通过
+            </td>
+        </tr>
+        <tr class="info"><th>注册时间</th> <td th:text="${#dates.format(userTD.createTime, 'yyyy-MM-dd HH:mm:ss')}">id</td></tr>
+    </table>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" value="提交" class="btn btn-info" />
+        </div>
+    </div>
+</form>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 导航栏 -->
+<div class="sidebar text-left" th:fragment="header">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">文章发布系统</a>
+            </div>
+
+            <div th:if="${session.login_type eq 'admin'}">
+                <ul class="nav navbar-nav">
+                    <li><a th:href="@{/index}"><strong>首页</strong></a></li>
+                    <li><a th:href="@{/user_detail(id=${session.login_user.id})}"><strong th:text="|欢迎你:${session.login_user.username}|"></strong></a></li>
+                    <li><a th:href="@{/users}"><strong>用户列表</strong></a></li>
+                    <li><a th:href="@{/newArticle}"><strong>发布文章</strong></a></li>
+                    <li><a th:href="@{/checkArticleList}"><strong>审查文章</strong></a></li>
+                    <li><a th:href="@{/logout}"><strong>退出</strong></a></li>
+                    <li><a th:href="@{/updatepassword}"><strong>修改密码</strong></a></li>
+                </ul>
+            </div>
+
+            <div th:if="${session.login_type eq 'common'}">
+                <ul class="nav navbar-nav">
+                    <li><a th:href="@{/index}"><strong>首页</strong></a></li>
+                    <li><a th:href="@{/user_detail(id=${session.login_user.id})}"><strong th:text="|欢迎你:${session.login_user.username}|"></strong></a></li>
+                    <li><a th:href="@{/newArticle}"><strong>发布文章</strong></a></li>
+                    <li><a th:href="@{/logout}"><strong>退出</strong></a></li>
+                    <li><a th:href="@{/updatepassword}"><strong>修改密码</strong></a></li>
+                </ul>
+            </div>
+
+            <div th:if="${session.login_type == null}">
+                <ul class="nav navbar-nav">
+                    <li><a th:href="@{/index}"><strong>首页</strong></a></li>
+                    <li><a th:href="@{/login}"><strong>登录</strong></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<br/>
+</body>
+</html>

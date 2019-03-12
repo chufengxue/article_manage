@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>文章列表</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"></link>
+</head>
+<body class="container" style="width: 70%;">
+
+<div th:replace="layout/header :: header"></div>
+
+<content>
+    <div>
+        <br/>
+        <h1 th:text="|${user.username} 的文章|"></h1>
+        <div class="with:80%">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <!--<th>#</th>-->
+                    <th>发布者</th>
+                    <th>标题</th>
+                    <th>发布时间</th>
+                    <!--<th>浏览次数</th>-->
+                    <th>查看</th>
+                    <th>删除</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  th:each="article : ${pageBean.data}">
+                    <!--<th scope="row" th:text="${user.id}">1</th>-->
+                    <td th:text="${article.user.username}">neo</td>
+                    <td th:text="${article.title}">neo@126.com</td>
+                    <td th:text="${#dates.format(article.createTime, 'yyyy-MM-dd HH:mm:ss')}">6</td>
+                    <!--<td th:text="${article.viewCount}">6</td>-->
+                    <td><a th:href="@{/article_detail(id=${article.id})}">详情</a></td>
+                    <td><a th:href="@{/article_delete(id=${article.id}, userId=${article.user.id})}">删除</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- <div th:include="page :: pager" th:remove="tag"></div>-->
+        </div>
+
+        <br />
+
+        <div class="row">
+            <ul class="pagination" style="float: right;">
+
+                <div th:if="${pageBean.pagebar!=null}" th:remove="tag">
+
+                <li th:if="${pageBean.currentpage != pageBean.previouspage}"><a th:href="@{/article_list/{id}(id=${user.id},currentPage=${pageBean.previouspage})}">上一页</a></li>
+               <!-- <a th:href="@{https://www.localhost:8080/{type}/aa(type=${type}, id=${id})}">type&id</a>-->
+                <div th:each="num : ${pageBean.pagebar}" th:remove="tag">
+                    <li th:if="${pageBean.currentpage == num}" class="disabled"><a th:text="${num}" href="#"></a></li>
+                    <li th:if="${pageBean.currentpage != num}"><a th:text="${num}" th:href="@{/article_list/{id}(id=${user.id},currentPage=${num})}"></a></li>
+                </div>
+
+                <li th:if="${pageBean.currentpage != pageBean.nextpage}"><a th:href="@{/article_list/{id}(id=${user.id},currentPage=${pageBean.nextpage})}">下一页</a></li>
+                </div>
+            </ul>
+        </div>
+
+    </div>
+</content>
+
+</body>
+</html>

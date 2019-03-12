@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>信息提示</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"></link>
+</head>
+<body class="container text-center" style="width: 70%;">
+
+<div th:replace="layout/header :: header"></div>
+
+<br><br><br><br>
+<h2 th:text="${errorMsg}"></h2><br/>
+</body>
+</html>
